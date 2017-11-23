@@ -48,6 +48,33 @@ class Search extends Component {
       });
   };
 
+  handleAdd = () => {
+    console.log('ADD SONG');
+    //   axios({
+    //     method: 'post',
+    //     url: playlistURL,
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Authorization: `Bearer ${access_token}`
+    //     },
+    //     data: {
+    //       name: playlistName,
+    //       public: false,
+    //       collaborative: true,
+    //       description: playlistDescription
+    //     }
+    //   })
+    //     .then(res => {
+    //       fetchPlaylistInfo(res.data);
+    //     })
+    //     .then(() => {
+    //       this.props.history.push('/playlist');
+    //     })
+    //     .catch(err => {
+    //       console.log('ERROR', err);
+    //     });
+  };
+
   render() {
     const { search } = this.props.state;
     console.log('PLAYLIST PROPS', search.results);
@@ -72,6 +99,7 @@ class Search extends Component {
                     <h4>Artist: {a.artists[0].name}</h4>
                     <h4>Song: {a.name}</h4>
                     <h4>Album: {a.album.name}</h4>
+                    <button onClick={() => this.handleAdd()}>+</button>
                   </div>
                 );
               })}

@@ -10,7 +10,7 @@ class CreatePlaylist extends Component {
     if (!this.props.state.spotifyAuth.access_token) {
       const stateKey = 'spotify_auth_state';
       const client_id = 'b9a9f0f395ff421bb874c6bed7c10a05'; // Your client id
-      const redirect_uri = 'http://localhost:3000/dashboard'; // Your redirect uri
+      const redirect_uri = 'http://localhost:3000/signin'; // Your redirect uri
       const state = Math.random.toString(3).substring(7);
       localStorage.setItem(stateKey, state);
       const scope =
@@ -28,6 +28,8 @@ class CreatePlaylist extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    const { fetchPlaylistInfo } = this.props;
+
     const user_id = this.props.state.spotifyAuth.userId.data.id;
     const apiSrc = `https://api.spotify.com/v1/users/${user_id}/playlists`;
     const playlistName = this.refs.PlaylistName.value;
@@ -49,31 +51,14 @@ class CreatePlaylist extends Component {
       }
     })
       .then(res => {
-        console.log('RESPONSE', res);
+        fetchPlaylistInfo(res.data);
+      })
+      .then(() => {
+        this.props.history.push('/playlist');
       })
       .catch(err => {
         console.log('ERROR', err);
       });
-
-    // axios
-    //   .post(apiSrc, {
-    //     headers: {
-    //       Authorization: `Bearer ${access_token}`,
-    //       'Content-Type': 'application/json'
-    //     },
-    //     data: {
-    //       name: playlistName,
-    //       public: true,
-    //       collaborative: true,
-    //       description: playlistDescription
-    //     }
-    //   })
-    //   .then(res => {
-    //     console.log('CREATE PLAYLIST POST RESPONSE', res);
-    //   })
-    //   .catch(error => {
-    //     console.log('CREATE PLAYLIST POST ERROR', error);
-    //   });
   };
 
   render() {
