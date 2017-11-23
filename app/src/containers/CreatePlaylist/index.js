@@ -34,25 +34,46 @@ class CreatePlaylist extends Component {
     const playlistDescription = this.refs.PlaylistDescription.value;
     const access_token = this.props.state.spotifyAuth.access_token;
 
-    axios
-      .post(apiSrc, {
-        headers: {
-          Authorization: `${access_token}`,
-          'Content-Type': 'application/json'
-        },
-        data: {
-          name: playlistName,
-          public: true,
-          collaborative: true,
-          description: playlistDescription
-        }
-      })
+    axios({
+      method: 'post',
+      url: apiSrc,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${access_token}`
+      },
+      data: {
+        name: playlistName,
+        public: false,
+        collaborative: true,
+        description: playlistDescription
+      }
+    })
       .then(res => {
-        console.log('CREATE PLAYLIST POST RESPONSE', res);
+        console.log('RESPONSE', res);
       })
-      .catch(error => {
-        console.log('CREATE PLAYLIST POST ERROR', error);
+      .catch(err => {
+        console.log('ERROR', err);
       });
+
+    // axios
+    //   .post(apiSrc, {
+    //     headers: {
+    //       Authorization: `Bearer ${access_token}`,
+    //       'Content-Type': 'application/json'
+    //     },
+    //     data: {
+    //       name: playlistName,
+    //       public: true,
+    //       collaborative: true,
+    //       description: playlistDescription
+    //     }
+    //   })
+    //   .then(res => {
+    //     console.log('CREATE PLAYLIST POST RESPONSE', res);
+    //   })
+    //   .catch(error => {
+    //     console.log('CREATE PLAYLIST POST ERROR', error);
+    //   });
   };
 
   render() {
