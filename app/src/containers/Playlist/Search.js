@@ -13,7 +13,8 @@ class Search extends Component {
       const redirect_uri = 'http://localhost:3000/dashboard'; // Your redirect uri
       const state = Math.random.toString(3).substring(7);
       localStorage.setItem(stateKey, state);
-      const scope = 'user-read-private user-read-email';
+      const scope =
+        'user-read-private user-read-email playlist-modify-private playlist-modify-public';
       let url = 'https://accounts.spotify.com/authorize';
 
       url += '?response_type=token';
@@ -24,6 +25,7 @@ class Search extends Component {
       window.location = url;
     }
   }
+
   handleSearch = event => {
     event.preventDefault();
 
@@ -44,6 +46,33 @@ class Search extends Component {
       .catch(error => {
         searchError(error);
       });
+  };
+
+  handleAdd = () => {
+    console.log('ADD SONG');
+    //   axios({
+    //     method: 'post',
+    //     url: playlistURL,
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Authorization: `Bearer ${access_token}`
+    //     },
+    //     data: {
+    //       name: playlistName,
+    //       public: false,
+    //       collaborative: true,
+    //       description: playlistDescription
+    //     }
+    //   })
+    //     .then(res => {
+    //       fetchPlaylistInfo(res.data);
+    //     })
+    //     .then(() => {
+    //       this.props.history.push('/playlist');
+    //     })
+    //     .catch(err => {
+    //       console.log('ERROR', err);
+    //     });
   };
 
   render() {
@@ -70,6 +99,7 @@ class Search extends Component {
                     <h4>Artist: {a.artists[0].name}</h4>
                     <h4>Song: {a.name}</h4>
                     <h4>Album: {a.album.name}</h4>
+                    <button onClick={() => this.handleAdd()}>+</button>
                   </div>
                 );
               })}
