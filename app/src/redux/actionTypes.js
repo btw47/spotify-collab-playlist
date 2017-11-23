@@ -1,7 +1,9 @@
 const actionTypes = {
   SPOTIFY_AUTH: 'SPOTIFY_AUTH',
   SEARCH_PAYLOAD: 'SEARCH_PAYLOAD',
-  SEARCH_ERROR: 'SEARCH_ERROR'
+  SEARCH_ERROR: 'SEARCH_ERROR',
+  AUTH_ERROR: 'AUTH_ERROR',
+  LOGGED_IN: 'LOGGED_IN'
 };
 
 export default actionTypes;

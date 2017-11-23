@@ -13,7 +13,8 @@ class Search extends Component {
       const redirect_uri = 'http://localhost:3000/dashboard'; // Your redirect uri
       const state = Math.random.toString(3).substring(7);
       localStorage.setItem(stateKey, state);
-      const scope = 'user-read-private user-read-email';
+      const scope =
+        'user-read-private user-read-email playlist-modify-private playlist-modify-public';
       let url = 'https://accounts.spotify.com/authorize';
 
       url += '?response_type=token';
@@ -24,6 +25,7 @@ class Search extends Component {
       window.location = url;
     }
   }
+
   handleSearch = event => {
     event.preventDefault();
 

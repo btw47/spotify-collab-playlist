@@ -7,6 +7,13 @@ export const spotifyAuth = hash => {
   };
 };
 
+export const authError = error => {
+  return {
+    type: actionTypes.AUTH_ERROR,
+    error
+  };
+};
+
 export const searchPayload = payload => {
   return {
     type: actionTypes.SEARCH_PAYLOAD,
