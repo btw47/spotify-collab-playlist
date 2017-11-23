@@ -17,6 +17,7 @@ class Dashboard extends Component {
         const uid = thisUser.uid;
 
         this.props.fetchUser(thisUser.uid);
+        this.props.fetchUserPlaylists(thisUser.uid);
       }
     });
   }

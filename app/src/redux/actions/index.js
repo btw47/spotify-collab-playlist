@@ -1,4 +1,5 @@
 import actionTypes from '../actionTypes';
+import { firebaseDb } from '../../server/firebase';
 
 //-----SPOTIFY AUTH-----
 export const spotifyAuth = hash => {
@@ -39,9 +40,56 @@ export const searchError = error => {
 };
 
 //-----PLAYLIST INFO-----
-export const fetchPlaylistInfo = info => {
-  return {
-    type: actionTypes.PLAYLIST_INFO,
-    info
+export const fetchUserPlaylists = uid => {
+  return dispatch => {
+    firebaseDb.ref('users/' + uid + '/playlists').on('value', snapshot => {
+      const firebaseOutput = snapshot.val();
+
+      const pushList = [];
+      for (let playlist in firebaseOutput) {
+        pushList.push(playlist);
+      }
+      console.log('PUSHLIST', pushList);
+
+      const playlistArray = pushList.map(a => {
+        const push = [];
+        let length = 0;
+        for (let prop in firebaseOutput[a]) {
+          length += 1;
+        }
+        push.push(firebaseOutput[a]);
+        const lastUpload = push[length - 1];
+        return lastUpload;
+      });
+
+      console.log('lastUpload', playlistArray);
+
+      dispatch({
+        type: actionTypes.FETCH_USER_PLAYLISTS,
+        payload: playlistArray
+      });
+    });
+  };
+};
+
+export const pushPlaylistInfo = (uid, info) => {
+  return dispatch => {
+    const date = Date();
+    const playlistID = info.id;
+
+    firebaseDb
+      .ref('users/' + uid + '/playlists')
+      .child(playlistID)
+      .push({
+        playlistInfo: info,
+        date: date
+      });
+
+    fetchUserPlaylists(uid);
+
+    dispatch({
+      type: actionTypes.NEW_PLAYLIST_INFO,
+      info
+    });
   };
 };

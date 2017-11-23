@@ -28,13 +28,14 @@ class CreatePlaylist extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { fetchPlaylistInfo } = this.props;
+    const { pushPlaylistInfo } = this.props;
 
     const user_id = this.props.state.spotifyAuth.userId.data.id;
     const apiSrc = `https://api.spotify.com/v1/users/${user_id}/playlists`;
     const playlistName = this.refs.PlaylistName.value;
     const playlistDescription = this.refs.PlaylistDescription.value;
     const access_token = this.props.state.spotifyAuth.access_token;
+    const firebase_uid = this.props.state.firebase.user;
 
     axios({
       method: 'post',
@@ -51,7 +52,7 @@ class CreatePlaylist extends Component {
       }
     })
       .then(res => {
-        fetchPlaylistInfo(res.data);
+        pushPlaylistInfo(firebase_uid, res.data);
       })
       .then(() => {
         this.props.history.push('/playlist');
